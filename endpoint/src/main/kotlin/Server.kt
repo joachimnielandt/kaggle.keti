@@ -79,8 +79,6 @@ fun startServer() {
             disposables.forEach { it.dispose() }
             clients.remove(client)
         }
-
-
     }
 }
 
