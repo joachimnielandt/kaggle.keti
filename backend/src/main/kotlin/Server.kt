@@ -39,9 +39,12 @@ fun startServer() {
     val tables = arrayOf("humidity", "pir", "temperature")
 
     // figure out the first timestamp in the database
+    println("Waiting for database...")
     val firstTimestamp = getFirstTimestamp(db).blockingGet() + 60
     // we will use this offset throughout the server's life
     val serverStart = System.currentTimeMillis() / 1000
+
+    println("Got the first timestamp ($serverStart) from the database, ready for serving SSE endpoint.")
 
     // sse path
     val clients = ConcurrentLinkedQueue<SseClient>()
@@ -87,10 +90,10 @@ fun getFirstTimestamp(db: PgPool): Maybe<Long> {
             conn.query("select min(timestamp) timestamp from pir").rxExecute().toMaybe()
                 .map {
                     val integer = it.first().getLong("timestamp")
-                    println("it = ${integer}")
                     integer
                 }
         }
+        .retry()
 }
 
 fun getStream(startTime: Long, table: String, db: PgPool): Flowable<JsonObject> {
@@ -134,6 +137,9 @@ fun getDatabaseConnection(): PgPool {
         .setDatabase("postgres")
         .setUser("postgres")
         .setPassword("neebai9izooHio4athie6ahj0haiph")
+        .setConnectTimeout(5000)
+        .setReconnectInterval(2000)
+        .setReconnectAttempts(Int.MAX_VALUE)
 
     // Pool options
     val poolOptions = PoolOptions()
