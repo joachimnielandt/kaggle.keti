@@ -22,9 +22,23 @@ Use, e.g., Datagrip to connect to the database. By default, the database runs on
 - user: postgres
 - password: <see `docker-compose.yml`>
 
+The actual data files were taken from Kaggle.com (https://www.kaggle.com/ranakrc/smart-building-system). The dataset should be unpacked in the `./database/data` folder. So, for example, the full path of one of the .csv files is:
+
+`.\database\data\413\co2.csv`
+
+Only when the files are in the correct location can the docker process successfully build the database.
+
 # Backend
 
-You can access the backend yourself through (default) port 7000. Surf to `localhost:7000` to see the Hello world landing page. Surf to `localhost:7000/sse` to get the SSE stream of KETI events. To get a stream of events in a program working it is usually easiest to do this programmatically. The `backend` module contains an example 'Client' application. Open `backend` in Intellij IDEA and run the main function in `Client.java`.
+You can access the backend yourself through (default) port 7000. Surf to `localhost:7000` to see the Hello world landing page. Perform an HTTP request to `localhost:7000/sse` to get the SSE stream of KETI events. To get a stream of events in a program working it is usually easiest to do this programmatically. The `backend` module contains an example 'Client' application. Open `backend` in Intellij IDEA and run the main function in `Client.java`.
+
+Je kan de backend steeds herstarten (moest er iets mis gaan) door dit commando uit te voeren (de naam van de container kan veranderen afhankelijk van je gekozen directory):
+
+`docker restart kaggleketi_backend_1`
+
+Je kan de logs er ook van bekijken (dit bevat eventuele foutmeldingen en output die verstuurd wordt naar de gebruikers):
+
+`docker logs kaggleketi_backend_1`
 
 # .env file
 
@@ -33,4 +47,4 @@ Make a copy of `.env.example` and name it `.env`. Override any defaults to your 
 A quick overview of the options:
 
 - DB_PORT: the port on which the database is exposed on your local machine. Needed if you want to connect to it yourself.
-- CSV_AMOUNT: if you want to limit the amount of CSV files that are loaded by the database, you can do that here
+- LIMIT_CSV: if you want to limit the amount of CSV files that are loaded by the database, you can do that here

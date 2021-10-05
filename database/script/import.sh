@@ -5,7 +5,7 @@ USER=postgres
 
 # you can use this environment variable to limit the amount of .csv files imported
 if [[ -z "${LIMIT_CSV}" ]]; then
-  CSV_AMOUNT=2
+  CSV_AMOUNT=1000000
 else
   CSV_AMOUNT="${LIMIT_CSV}"
 fi
