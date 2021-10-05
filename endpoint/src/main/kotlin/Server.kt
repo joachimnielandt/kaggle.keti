@@ -8,7 +8,6 @@ import io.vertx.core.json.JsonObject
 import io.vertx.pgclient.PgConnectOptions
 import io.vertx.rxjava3.pgclient.PgPool
 import io.vertx.sqlclient.PoolOptions
-import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.TimeUnit
 
@@ -121,10 +120,17 @@ fun getStream(startTime: Long, table: String, db: PgPool): Flowable<JsonObject> 
 }
 
 fun getDatabaseConnection(): PgPool {
+    // potentially get info from the environment variables
+    val env = System.getenv()
+
+    val port = env["KETI_DB_PORT"]?.toInt() ?: 5432
+    val host = env["KETI_DB_HOST"] ?: "localhost"
+
+
     // for these credentials, check out the docker-compose.yml file that starts up the database itself
     val connectOptions = PgConnectOptions()
-        .setPort(5490)
-        .setHost("localhost")
+        .setPort(port)
+        .setHost(host)
         .setDatabase("postgres")
         .setUser("postgres")
         .setPassword("neebai9izooHio4athie6ahj0haiph")
