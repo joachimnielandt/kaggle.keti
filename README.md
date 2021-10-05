@@ -32,11 +32,11 @@ Only when the files are in the correct location can the docker process successfu
 
 You can access the backend yourself through (default) port 7000. Surf to `localhost:7000` to see the Hello world landing page. Perform an HTTP request to `localhost:7000/sse` to get the SSE stream of KETI events. To get a stream of events in a program working it is usually easiest to do this programmatically. The `backend` module contains an example 'Client' application. Open `backend` in Intellij IDEA and run the main function in `Client.java`.
 
-Je kan de backend steeds herstarten (moest er iets mis gaan) door dit commando uit te voeren (de naam van de container kan veranderen afhankelijk van je gekozen directory):
+You can always restart the backend (should something go awry) by executing this command (name of container could change on your machine):
 
 `docker restart kaggleketi_backend_1`
 
-Je kan de logs er ook van bekijken (dit bevat eventuele foutmeldingen en output die verstuurd wordt naar de gebruikers):
+you can also check the logs of the container (this contains any error messages and output that is sent to the users):
 
 `docker logs kaggleketi_backend_1`
 
