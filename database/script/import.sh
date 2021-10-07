@@ -5,9 +5,11 @@ USER=postgres
 
 # you can use this environment variable to limit the amount of .csv files imported
 if [[ -z "${LIMIT_CSV}" ]]; then
+  echo "no limit"
   CSV_AMOUNT=1000000
 else
   CSV_AMOUNT="${LIMIT_CSV}"
+  echo "limit: $CSV_AMOUNT"
 fi
 
 # start looping over rooms and their files
@@ -29,7 +31,7 @@ for d in /docker-entrypoint-initdb.d/data/*/ ; do
 	
 	# stop processing if you reached the desired amount of csv files
 	((filecount++))
-	if [[ "$filecount" -ge $CSV_AMOUNT ]]; then
+	if [[ "$filecount" -ge 10 ]]; then
        break
 	fi
 done
